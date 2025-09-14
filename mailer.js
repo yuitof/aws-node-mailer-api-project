@@ -23,6 +23,6 @@ exports.sendEmail = async (data) => {
     });
     return info;
   } catch (error) {
-    throw new Error("Error occurred while sending the email.", { cause: error });
+    throw new Error("Error occurred while sending the email.");
   }
 }
