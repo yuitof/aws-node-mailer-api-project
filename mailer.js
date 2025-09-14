@@ -1,29 +1,28 @@
 const nodemailer = require("nodemailer");
 
-// Create a test account or replace with real credentials.
 const transporter = nodemailer.createTransport({
   host: "smtp.sendgrid.net",
   port: 587,
-  secure: false, // true for 465, false for other ports
+  secure: false,
   auth: {
     user: 'apikey',
     pass: process.env.API_KEY,
   },
 });
 
-// Wrap in an async IIFE so we can use await.
 exports.sendEmail = async (data) => {
   try {
+    const htmlMail = `<p>Thank you for sending a message. The submitted form is below.</p><p>from ${data.firstname} ${data.lastname} (${data.email})</p><p>${data.message}</p>`
+    const textMail = `Thank you for sending a message. The submitted form is below.\nfrom ${data.firstname} ${data.lastname} (${data.email})\n${data.message}`
     const info = await transporter.sendMail({
-      from: "test@yuitof.com",
-      to: process.env.MY_ADDRESS,
+      from: `${process.env.SENDER_ADDRESS}`,
+      to: `${process.env.RECEIVER_ADDRESS}, ${data.email}`,
       subject: "aws-node-mailer-api notification",
-      text: JSON.stringify(data), // plain‑text body
-      html: `<p>${JSON.stringify(data)}</p>`, // HTML body
+      text: textMail,
+      html: htmlMail
     });
-    console.log(data.message);
-    return info
+    return info;
   } catch (error) {
-    throw new Error('Failed to send email. (in api)');
+    throw new Error("Error occurred while sending the email.", { cause: error });
   }
 }
