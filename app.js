@@ -28,7 +28,7 @@ app.post("/", async (req, res, next) => {
         const result = await mailer.sendEmail(req.body);
         return res.status(200).json(result);
     } catch (error) {
-        return res.status(500).json({name: 'Error', message: error ? error.message : 'Internal server error'});
+        return res.status(500).json({name: 'Error', message: 'Internal server error'});
     }
 });
 
