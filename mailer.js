@@ -21,7 +21,8 @@ exports.sendEmail = async (data) => {
     const textMail = `Thank you for sending a message. The submitted form is below.\nfrom ${data.firstname} ${data.lastname} (${data.email})\n${data.message}`
     const info = await transporter.sendMail({
       from: `${process.env.SENDER_ADDRESS}`,
-      to: `${process.env.RECEIVER_ADDRESS}, ${data.email}`,
+      to: `${data.email}`,
+      bcc: `${process.env.RECEIVER_ADDRESS}`,
       subject: "aws-node-mailer-api notification",
       text: textMail,
       html: htmlMail
