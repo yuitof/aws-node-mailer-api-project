@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const path = require('path');
+const { readHTMLMail, readTextMail } = require('./view/confirmation.js')
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_SERVER_URL,
@@ -17,15 +19,13 @@ exports.sendEmail = async (data) => {
     if (!emailRegex.test(data.email)) {
       throw new Error("Invalid email address");
     }
-    const htmlMail = `<p>Thank you for sending a message. The submitted form is below.</p><p>from ${data.firstname} ${data.lastname} (${data.email})</p><p>${data.message}</p>`
-    const textMail = `Thank you for sending a message. The submitted form is below.\nfrom ${data.firstname} ${data.lastname} (${data.email})\n${data.message}`
     const info = await transporter.sendMail({
       from: `${process.env.SENDER_ADDRESS}`,
       to: `${data.email}`,
       bcc: `${process.env.RECEIVER_ADDRESS}`,
       subject: "aws-node-mailer-api notification",
-      text: textMail,
-      html: htmlMail
+      text: `${readTextMail(data)}`,
+      html: `${readHTMLMail(data)}`,
     });
     return info;
   } catch (error) {

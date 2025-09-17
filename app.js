@@ -1,6 +1,6 @@
 const serverless = require("serverless-http");
 const express = require("express");
-const mailer = require('./mailer.js');
+const mailer = require('./mailer/mailer.js');
 
 const app = express();
 
