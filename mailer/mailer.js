@@ -20,10 +20,10 @@ exports.sendEmail = async (data) => {
       throw new Error("Invalid email address");
     }
     const info = await transporter.sendMail({
-      from: `${process.env.SENDER_ADDRESS}`,
+      from: `${process.env.SENDER_NAME} ${process.env.SENDER_ADDRESS}`,
       to: `${data.email}`,
       bcc: `${process.env.RECEIVER_ADDRESS}`,
-      subject: "aws-node-mailer-api notification",
+      subject: "Your submission has been confirmed",
       text: `${readTextMail(data)}`,
       html: `${readHTMLMail(data)}`,
     });
