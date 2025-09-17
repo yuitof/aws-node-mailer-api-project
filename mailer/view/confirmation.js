@@ -148,4 +148,5 @@ Best regards
 Visit our website: https://www.yuitof.com
 © 2025 All Rights Reserved.
 `
+    return text;
 }
