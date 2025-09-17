@@ -1,4 +1,4 @@
-exports.readHTMLMail = data => {
+exports.HTMLMail = data => {
     const html =
 `
 <!DOCTYPE html>
@@ -114,7 +114,7 @@ exports.readHTMLMail = data => {
     return html;
 }
 
-exports.readTextMail = data => {
+exports.TEXTMail = data => {
     const text = 
 `
 Subject: We've received your message

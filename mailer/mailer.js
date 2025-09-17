@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
-const path = require('path');
-const { readHTMLMail, readTextMail } = require('./view/confirmation.js')
+const { HTMLMail, TEXTMail } = require('./view/confirmation.js')
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_SERVER_URL,
@@ -14,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-exports.sendEmail = async (data) => {
+exports.sendConfirmationMail = async (data) => {
   try {
     if (!emailRegex.test(data.email)) {
       throw new Error("Invalid email address");
@@ -24,8 +23,8 @@ exports.sendEmail = async (data) => {
       to: `${data.email}`,
       bcc: `${process.env.RECEIVER_ADDRESS}`,
       subject: "Your submission has been confirmed",
-      text: `${readTextMail(data)}`,
-      html: `${readHTMLMail(data)}`,
+      text: `${TEXTMail(data)}`,
+      html: `${HTMLMail(data)}`,
     });
     return info;
   } catch (error) {
