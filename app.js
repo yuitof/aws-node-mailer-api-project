@@ -8,15 +8,13 @@ app.use(express.json());
 app.use((req, res, next) => {
     const authHeader = req.headers["authorization"]
 
-    if (!authHeader || !authHeader.startsWith("Basic")) {
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const base64Credentials = authHeader.split(" ")[1];
-    const credentials = Buffer.from(base64Credentials, "base64").toString("utf-8");
-    const [username, password] = credentials.split(":");
+    const credentials = authHeader.split(" ")[1];
 
-    if (username == process.env.USERNAME && password == process.env.PASSWORD) {
+    if (credentials == process.env.API_KEY) {
         return next();
     }
 
